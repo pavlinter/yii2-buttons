@@ -2,6 +2,7 @@
     display: none;
 }
 .ab-spinner {
+    display: inline-block;
     position:relative;
     -webkit-animation: ab-spinner .6s infinite linear;
     -moz-animation: ab-spinner .6s infinite linear;

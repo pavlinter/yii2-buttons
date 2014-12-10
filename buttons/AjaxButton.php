@@ -33,6 +33,10 @@ class AjaxButton extends Widget
      */
     public $label = 'Button';
     /**
+     * @var boolean whether the label should be HTML-encoded.
+     */
+    public $encodeLabel = true;
+    /**
      * @var string the button label
      */
     public $template = '<span class="ab-loading ab-show-{id}">{spinner}</span><span class="ab-hide-{id}">{label}</span>';
@@ -48,10 +52,6 @@ class AjaxButton extends Widget
     public $spinnerOptions = [
         'class' => 'ab-spinner-blue',
     ];
-    /**
-     * @var boolean whether the label should be HTML-encoded.
-     */
-    public $encodeLabel = true;
     /**
      * @var array options for ajax.
      */
