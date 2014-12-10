@@ -44,8 +44,8 @@ class AjaxButton extends Widget
      * @var array the HTML attributes for the spinner.
      * [
      *      'class' => 'ab-spinner-blue', ab-spinner-red | ab-spinner-green | ab-spinner-black | ab-spinner-white
-     *      'width' => '20px',
-     *      'height' => '20px',
+     *      'width' => '15px',
+     *      'height' => '15px',
      *      'content' => '',
      * ]
      */
@@ -80,8 +80,8 @@ class AjaxButton extends Widget
         $label = $this->encodeLabel ? Html::encode($this->label) : $this->label;
 
         $spinnerTag = ArrayHelper::remove($this->spinnerOptions, 'tag', 'div');
-        $spinnerWidth = ArrayHelper::remove($this->spinnerOptions, 'width', '20px');
-        $spinnerHeight = ArrayHelper::remove($this->spinnerOptions, 'height', '20px');
+        $spinnerWidth = ArrayHelper::remove($this->spinnerOptions, 'width', '15px');
+        $spinnerHeight = ArrayHelper::remove($this->spinnerOptions, 'height', '15px');
         $spinnerContent = ArrayHelper::remove($this->spinnerOptions, 'content');
 
         Html::addCssClass($this->spinnerOptions, 'ab-spinner');
