@@ -88,7 +88,11 @@ use pavlinter\buttons\AjaxButton;
         }',
     ],
 ]); ?>
+```
 
+Send form data
+--------------
+```php
 <form action="">
     <div id="name"></div>
     <input type="text" name="name" value="Jon"/>
@@ -107,5 +111,4 @@ use pavlinter\buttons\AjaxButton;
         ],
     ]);?>
 </form>
-
 ```
