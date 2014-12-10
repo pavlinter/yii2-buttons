@@ -112,7 +112,6 @@ class AjaxButton extends Widget
     {
 
         $this->ajaxOptions = ArrayHelper::merge([
-            'url' => [''],
             'dataType' => 'json',
             'always' => 'function(jqXHR, textStatus){$(".ab-show-" + id).hide();$(".ab-hide-" + id).show();}',
         ], $this->ajaxOptions);
@@ -127,7 +126,9 @@ class AjaxButton extends Widget
             }
         }
 
-        if (is_array($this->ajaxOptions['url'])) {
+        if (!isset($this->ajaxOptions['url'])) {
+            $this->ajaxOptions['url'] = Url::to(['']);
+        } else if(is_array($this->ajaxOptions['url'])) {
             $this->ajaxOptions['url'] = Url::to($this->ajaxOptions['url']);
         }
 
