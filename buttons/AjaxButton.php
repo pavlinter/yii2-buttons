@@ -53,6 +53,10 @@ class AjaxButton extends Widget
         'class' => 'ab-spinner-blue',
     ];
     /**
+     * @var string main spinner class.
+     */
+    public $spinnerClass = 'ab-spinner';
+    /**
      * @var array options for ajax.
      */
     public $ajaxOptions = [];
@@ -84,7 +88,7 @@ class AjaxButton extends Widget
         $spinnerHeight = ArrayHelper::remove($this->spinnerOptions, 'height', '15px');
         $spinnerContent = ArrayHelper::remove($this->spinnerOptions, 'content');
 
-        Html::addCssClass($this->spinnerOptions, 'ab-spinner');
+        Html::addCssClass($this->spinnerOptions, $this->spinnerClass);
         Html::addCssStyle($this->spinnerOptions,[
             'width' => $spinnerWidth,
             'height' => $spinnerHeight,
@@ -101,8 +105,6 @@ class AjaxButton extends Widget
         if (!empty($this->ajaxOptions)) {
             $this->registerScript($view);
         }
-
-
     }
 
     /**
