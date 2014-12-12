@@ -19,96 +19,81 @@ or add
 
 to the require section of your `composer.json` file.
 
-
 Usage
------
-```php
-use pavlinter\buttons\AjaxButton;
+------------------
 
-<?= AjaxButton::widget([
+
+Simple GET Request
+------------------
+```php
+<?= \pavlinter\buttons\AjaxButton::widget([
+    /*
     'options' => [
-        'class' => 'btn btn-default',
+        'class' => 'btn btn-primary',
     ],
+    'spinnerOptions' => [
+        'class' => 'ab-spinner-black', //ab-spinner-red|ab-spinner-green|ab-spinner-blue|ab-spinner-white
+    ],
+    */
+    'id' => 'my-btn',
+    'label' => 'My Button',
     'ajaxOptions' => [
-        'data' => [
-            'id' => 1,
-        ],
+        /*
+        'dataType' => 'json',
+        'always' => 'function(jqXHR, textStatus){jQuery(".ab-show-" + abId).hide();jQuery(".ab-hide-" + abId).show();}',
+        'fail' => 'function(){}',
+        'then' => 'function(){}',
+        */
+        'url' => ['', 'id' => 5], //default current page
         'done' => 'function(data){
 
         }',
     ],
 ]);?>
-
-<?= AjaxButton::widget([
-    'options' => [
-        'class' => 'btn btn-default',
-    ],
-    'spinnerOptions' => [
-        'class' => 'ab-spinner-white',
-    ],
+```
+Simple POST Request
+------------------
+```php
+<?= \pavlinter\buttons\AjaxButton::widget([
     'ajaxOptions' => [
         'data' => [
             'id' => 6,
         ],
-        'done' => 'function(data){
-
-        }',
+        'done' => 'function(data){}',
     ],
 ]);?>
-
-<?= AjaxButton::widget([
-    'options' => [
-        'class' => 'btn btn-default',
-    ],
-    'spinnerOptions' => [
-        'class' => 'ab-spinner-red',
-    ],
-    'ajaxOptions' => [
-        'data' => [
-            'id' => 3,
-        ],
-        'done' => 'function(data){
-
-        }',
-    ],
-]);?>
-
-<?= AjaxButton::widget([
-    'spinnerOptions' => [
-        'class' => 'ab-spinner-black',
-    ],
-    'ajaxOptions' => [
-        'url' => ['', 'number' => 40],
-        'type' => 'get',
-        'data' => [
-            'id' => 2,
-        ],
-        'done' => 'function(data){
-
-        }',
-    ],
-]); ?>
 ```
-
-Send form data
---------------
+Send Form
+------------------
 ```php
-<form action="">
-    <div id="name"></div>
+<?php $form = ActiveForm::begin(['id' => 'myForm']); ?>
     <input type="text" name="name" value="Jon"/>
     <input type="text" name="phone" value="4859282"/>
-    <?= AjaxButton::widget([
-        'options' => [
-            'class' => 'btn btn-default',
-        ],
-        'spinnerOptions' => [
-            'class' => 'ab-spinner-green',
-        ],
+    <?= \pavlinter\buttons\AjaxButton::widget([
         'ajaxOptions' => [
-            'done' => 'function(data){
-                $("#name").text(data.text)
-            }',
+            'type' => 'post',
+            'done' => 'function(data){}',
         ],
     ]);?>
-</form>
+<?php ActiveForm::end(); ?>
+```
+Send form and own data
+------------------
+```php
+<?= \pavlinter\buttons\AjaxButton::widget([
+    'ajaxOptions' => [
+        'type' => 'post',
+        'dataType' => 'html',
+        'beforeSend' => 'function(jqXHR, settings){
+            //defined abId = id widget;
+            var data = $("#myForm").serializeArray();
+            data.push({name: "id",value: abId});
+            settings.data = $.param(data);
+        }',
+        'data' => [],
+        'done' => 'function(data){
+
+        }',
+    ],
+]);?>
 ```

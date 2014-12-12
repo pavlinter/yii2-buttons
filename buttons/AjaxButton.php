@@ -43,14 +43,14 @@ class AjaxButton extends Widget
     /**
      * @var array the HTML attributes for the spinner.
      * [
-     *      'class' => 'ab-spinner-blue', ab-spinner-red | ab-spinner-green | ab-spinner-black | ab-spinner-white
+     *      'class' => 'ab-spinner-black', ab-spinner-red|ab-spinner-green|ab-spinner-blue|ab-spinner-white
      *      'width' => '15px',
      *      'height' => '15px',
      *      'content' => '',
      * ]
      */
     public $spinnerOptions = [
-        'class' => 'ab-spinner-blue',
+        'class' => 'ab-spinner-black',
     ];
     /**
      * @var string main spinner class.
@@ -70,7 +70,11 @@ class AjaxButton extends Widget
         if (isset($this->options['id'])) {
             $this->id = $this->options['id'];
         } else {
-            $this->id = $this->options['id'] = $this->getId();
+            if ($this->id === null) {
+                $this->id = $this->options['id'] = $this->getId();
+            } else {
+                $this->options['id'] = $this->id;
+            }
         }
 
         if (!isset($this->options['class'])) {
@@ -114,8 +118,10 @@ class AjaxButton extends Widget
     {
 
         $this->ajaxOptions = ArrayHelper::merge([
+            'type' => null,
+            'data' => null,
             'dataType' => 'json',
-            'always' => 'function(jqXHR, textStatus){$(".ab-show-" + id).hide();$(".ab-hide-" + id).show();}',
+            'always' => 'function(jqXHR, textStatus){jQuery(".ab-show-" + abId).hide();jQuery(".ab-hide-" + abId).show();}',
         ], $this->ajaxOptions);
         $callbackScript = '';
         foreach (['done', 'always', 'fail', 'then'] as $name) {
@@ -128,31 +134,46 @@ class AjaxButton extends Widget
             }
         }
 
+        foreach (['beforeSend'] as $name) {
+            if (isset($this->ajaxOptions[$name])) {
+                if (!($this->ajaxOptions[$name] instanceof JsExpression)) {
+                    $this->ajaxOptions[$name] = new JsExpression($this->ajaxOptions[$name]);
+                }
+            }
+        }
+
         if (!isset($this->ajaxOptions['url'])) {
             $this->ajaxOptions['url'] = Url::to(['']);
         } else if(is_array($this->ajaxOptions['url'])) {
             $this->ajaxOptions['url'] = Url::to($this->ajaxOptions['url']);
         }
 
-        if (!isset($this->ajaxOptions['type'])) {
-            $this->ajaxOptions['type'] = "post";
+        if ($this->ajaxOptions['type'] === null) {
+            if ($this->ajaxOptions['data'] !== null) {
+                $this->ajaxOptions['type'] = 'post';
+            } else {
+                $this->ajaxOptions['type'] = 'get';
+            }
         }
 
-        if(isset($this->ajaxOptions['data'])) {
-            if ($this->ajaxOptions['type'] == 'post' && !isset($this->ajaxOptions['data'][Yii::$app->request->csrfParam])) {
+        if (is_string($this->ajaxOptions['data'])) {
+            if (!($this->ajaxOptions['data'] instanceof JsExpression)) {
+                $this->ajaxOptions['data'] = new JsExpression($this->ajaxOptions['data']);
+            }
+        } else if($this->ajaxOptions['type'] === 'post' && $this->ajaxOptions['data'] === null) {
+            $this->ajaxOptions['data'] = new JsExpression('$(this).closest("form").serialize()');
+        } else if($this->ajaxOptions['type'] === 'post' && is_array($this->ajaxOptions['data'])) {
+            if (!isset($this->ajaxOptions['data'][Yii::$app->request->csrfParam])) {
                 $this->ajaxOptions['data'][Yii::$app->getRequest()->csrfParam] = Yii::$app->getRequest()->csrfToken;
             }
-        } else {
-            $this->ajaxOptions['data'] = new JsExpression('$(this).closest("form").serialize()');
         }
 
         $view->registerJs('
-        $("#' . $this->id . '").on("click", function(){
-            var id = "' . $this->id . '";
-            $(".ab-show-" + id).show();
-            $(".ab-hide-" + id).hide();
-
-            $.ajax(' . Json::encode($this->ajaxOptions) . ')' . $callbackScript . ';
+        jQuery("#' . $this->id . '").on("click", function(){
+            var abId = "' . $this->id . '";
+            jQuery(".ab-show-" + abId).show();
+            jQuery(".ab-hide-" + abId).hide();
+            jQuery.ajax(' . Json::encode($this->ajaxOptions) . ')' . $callbackScript . ';
             return false;
         });
 
