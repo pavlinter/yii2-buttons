@@ -168,16 +168,6 @@ class AjaxButton extends Widget
                 $this->ajaxOptions['data'][$request->csrfParam] = $request->getCsrfToken();
             }
         }
-
-        $view->registerJs('
-        jQuery("#' . $this->id . '").on("click", function(){
-            var abId = "' . $this->id . '";
-            jQuery(".ab-show-" + abId).show();
-            jQuery(".ab-hide-" + abId).hide();
-            jQuery.ajax(' . Json::encode($this->ajaxOptions) . ')' . $callbackScript . ';
-            return false;
-        });
-
-        ');
+        $view->registerJs('jQuery("#' . $this->id . '").on("click", function(){var abId = "' . $this->id . '";jQuery(".ab-show-" + abId).show();jQuery(".ab-hide-" + abId).hide();jQuery.ajax(' . Json::encode($this->ajaxOptions) . ')' . $callbackScript . ';return false;});');
     }
 }
