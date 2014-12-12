@@ -163,8 +163,9 @@ class AjaxButton extends Widget
         } else if($this->ajaxOptions['type'] === 'post' && $this->ajaxOptions['data'] === null) {
             $this->ajaxOptions['data'] = new JsExpression('$(this).closest("form").serialize()');
         } else if($this->ajaxOptions['type'] === 'post' && is_array($this->ajaxOptions['data'])) {
-            if (!isset($this->ajaxOptions['data'][Yii::$app->request->csrfParam])) {
-                $this->ajaxOptions['data'][Yii::$app->getRequest()->csrfParam] = Yii::$app->getRequest()->csrfToken;
+            $request = Yii::$app->getRequest();
+            if ($request->enableCsrfValidation && !isset($this->ajaxOptions['data'][$request->csrfParam])) {
+                $this->ajaxOptions['data'][$request->csrfParam] = $request->getCsrfToken();
             }
         }
 
