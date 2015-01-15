@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * @package yii2-buttons
+ * @author Pavels Radajevs <pavlinter@gmail.com>
+ * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2014
+ * @version 1.0.0
+ */
+
 namespace pavlinter\buttons;
 
 /**

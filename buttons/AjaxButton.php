@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * @package yii2-buttons
+ * @author Pavels Radajevs <pavlinter@gmail.com>
+ * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2014
+ * @version 1.0.0
+ */
+
 namespace pavlinter\buttons;
 
 use Yii;
@@ -10,9 +18,7 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 
 /**
- * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2014
- * @package yii2-buttons
- * @version 1.0.0
+ * Class AjaxButton
  */
 class AjaxButton extends Widget
 {
