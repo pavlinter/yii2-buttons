@@ -20,11 +20,11 @@ or add
 to the require section of your `composer.json` file.
 
 Usage
-------------------
+-----------------------
 
 
 Simple GET Request
-------------------
+-----------------------
 ```php
 <?= \pavlinter\buttons\AjaxButton::widget([
     /*
@@ -52,7 +52,7 @@ Simple GET Request
 ]);?>
 ```
 Simple POST Request
-------------------
+-----------------------
 ```php
 <?= \pavlinter\buttons\AjaxButton::widget([
     'ajaxOptions' => [
@@ -64,7 +64,7 @@ Simple POST Request
 ]);?>
 ```
 Send Form
-------------------
+-----------------------
 ```php
 <?php $form = ActiveForm::begin(['id' => 'myForm']); ?>
     <input type="text" name="name" value="Jon"/>
@@ -78,7 +78,7 @@ Send Form
 <?php ActiveForm::end(); ?>
 ```
 Send form and own data
-------------------
+-----------------------
 ```php
 <?= \pavlinter\buttons\AjaxButton::widget([
     'ajaxOptions' => [
@@ -96,4 +96,57 @@ Send form and own data
         }',
     ],
 ]);?>
+```
+
+Add hidden input and send form
+-------------------------------
+```php
+<?php $form = ActiveForm::begin([
+    'id' => 'myTestForm',
+]); ?>
+
+    <?= \pavlinter\buttons\InputButton::widget([
+        'label' => 'Redirect To Contact Page',
+        'input' => 'redirectId',
+        'name' => 'redirect',
+        'value' => \yii\helpers\Url::to(['site/contact']),
+        'formSelector' => $form, //form object or form selector
+    ]);?>
+
+    <?= \pavlinter\buttons\InputButton::widget([
+        'options' => [],
+        'label' => 'Redirect To About Page',
+        'input' => [
+            'id' => 'redirectId',
+            'class' => 'simpleClass',
+        ],
+        'name' => 'redirect',
+        'value' => \yii\helpers\Url::to(['site/about']),
+        'formSelector' => '#myTestForm',
+    ]);?>
+
+    <?= \pavlinter\buttons\InputButton::widget([
+        'label' => 'Remove Input',
+        'input' => 'redirectId',
+        'name' => 'redirect',
+        //'value' => null, //remove redirect input and send form
+        'formSelector' => $form,
+    ]);?>
+
+<?php ActiveForm::end(); ?>
+```
+
+Controller
+-------------------------------
+```php
+public function actionIndex($id = null)
+{
+    ...
+    if (($redirect = Yii::$app->request->post('redirect'))) {
+        return $this->redirect($redirect);
+    }
+    ...
+
+    return $this->render('index');
+}
 ```

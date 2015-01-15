@@ -1,7 +1,7 @@
 {
     "name": "pavlinter/yii2-buttons",
-    "description": "Yii2: Ajax Button",
-    "keywords": ["yii2", "ajax", "button", "ajaxbutton"],
+    "description": "Yii2: Buttons",
+    "keywords": ["yii2", "button", "ajax", "redirect", "ajaxbutton", "redirectbutton", "inputbutton"],
     "type": "yii2-extension",
     "license": "BSD 3-Clause",
     "support": {
