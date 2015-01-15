@@ -1,4 +1,4 @@
-Yii2 Buttons
+Buttons
 ================
 
 Installation
@@ -22,6 +22,8 @@ to the require section of your `composer.json` file.
 Usage
 -----------------------
 
+Ajax Buttons
+================
 
 Simple GET Request
 -----------------------
@@ -97,6 +99,9 @@ Send form and own data
     ],
 ]);?>
 ```
+
+Redirect Buttons
+================
 
 Add hidden input and send form
 -------------------------------
