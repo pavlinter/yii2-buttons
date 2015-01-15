@@ -3,7 +3,7 @@
 /**
  * @package yii2-buttons
  * @author Pavels Radajevs <pavlinter@gmail.com>
- * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2014
+ * @copyright Copyright &copy; Pavels Radajevs <pavlinter@gmail.com>, 2015
  * @version 1.0.0
  */
 
