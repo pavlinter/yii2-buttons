@@ -1,4 +1,4 @@
-Yii2 AjaxButton
+Yii2 Buttons
 ================
 
 Installation
