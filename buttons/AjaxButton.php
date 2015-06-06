@@ -67,6 +67,10 @@ class AjaxButton extends Widget
      */
     public $ajaxOptions = [];
     /**
+     * @var string confirm message
+     */
+    public $confirmMessage;
+    /**
      * Initializes the widget.
      */
     public function run()
@@ -174,6 +178,16 @@ class AjaxButton extends Widget
                 $this->ajaxOptions['data'][$request->csrfParam] = $request->getCsrfToken();
             }
         }
-        $view->registerJs('jQuery("#' . $this->id . '").on("click", function(){var abId = "' . $this->id . '";jQuery(".ab-show-" + abId).show();jQuery(".ab-hide-" + abId).hide();jQuery.ajax(' . Json::encode($this->ajaxOptions) . ')' . $callbackScript . ';return false;});');
+
+
+        if($this->confirmMessage){
+            $confirmStart = 'if(confirm("' . $this->confirmMessage . '")){';
+            $confirmEnd = '}';
+        } else {
+            $confirmStart = '';
+            $confirmEnd = '';
+        }
+
+        $view->registerJs('jQuery("#' . $this->id . '").on("click", function(){' . $confirmStart . 'var abId = "' . $this->id . '";jQuery(".ab-show-" + abId).show();jQuery(".ab-hide-" + abId).hide();jQuery.ajax(' . Json::encode($this->ajaxOptions) . ')' . $callbackScript . ';' . $confirmEnd . 'return false;});');
     }
 }
