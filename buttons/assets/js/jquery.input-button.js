@@ -13,6 +13,7 @@
             $el.on("click.inputButton", function(e){
                 var $inp = $("#" + options.inputId), $form = $(options.formSelector);
                 $inp.remove();
+                var submit = false;
                 if(options.inputValue !== null){
                     $inp = $(options.inputTemplate);
                     $form.append($inp);
@@ -20,11 +21,24 @@
                     var event = $.Event("change.inputButton");
                     $inp.trigger(event, [self, options]);
                     if(event.result !== false) {
-                        $form.submit();
-                        return false;
+
+                        submit = true;
                     }
                 } else {
-                    $form.submit();
+                    submit = true;
+                }
+
+                if(submit){
+                    if(self.hasFormValidation()){
+                        if($form[0].checkValidity()){
+                            $form.submit();
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        $form.submit();
+                    }
+                    return false;
                 }
                 return false;
             });
@@ -32,6 +46,9 @@
         destroy: function () {
             var self = this, $el = self.$element;
             $el.off('.inputButton').removeData('inputButton');
+        },
+        hasFormValidation: function () {
+            return (typeof document.createElement( 'input' ).checkValidity == 'function');
         }
     };
 
