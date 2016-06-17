@@ -19,4 +19,8 @@ class AssetInputButton extends \yii\web\AssetBundle
     public $js = [
         'js/jquery.input-button.js',
     ];
+
+    public $depends = [
+        'yii\web\JqueryAsset',
+    ];
 }
